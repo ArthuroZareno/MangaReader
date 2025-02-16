@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Navbar from "../../components/navbar";
+import Image from 'next/image';
+
 
 export default function Chapter() {
   const router = useRouter();

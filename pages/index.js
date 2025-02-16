@@ -7,6 +7,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { ThemeContext } from "../context/ThemeContext";
 import Footer from "../components/Footer";
+import Image from 'next/image';
+
 
 export default function Home() {
   const [mangaList, setMangaList] = useState([]);
