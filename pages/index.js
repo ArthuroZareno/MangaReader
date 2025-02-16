@@ -16,9 +16,7 @@ export default function Home() {
   useEffect(() => {
     const fetchManga = async () => {
       try {
-        const res = await axios.get(
-          `/api/proxy?limit=30&order[followedCount]=desc&includes[]=cover_art`
-        );
+        const res = await axios.get(`/api/proxy?limit=30&order[followedCount]=desc&includes[]=cover_art`);
         setMangaList(res.data.data);
         setFeaturedManga(res.data.data.slice(0, 6));
       } catch (error) {
@@ -50,7 +48,7 @@ export default function Home() {
           {featuredManga.map((manga) => {
             const coverArt = manga.relationships.find((rel) => rel.type === "cover_art");
             const coverUrl = coverArt
-              ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.512.jpg`
+              ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}`
               : "/placeholder.jpg";
 
             return (
@@ -76,7 +74,7 @@ export default function Home() {
           {mangaList.map((manga) => {
             const coverArt = manga.relationships.find((rel) => rel.type === "cover_art");
             const coverUrl = coverArt
-              ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.256.jpg`
+              ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}`
               : "/placeholder.jpg";
 
             return (
