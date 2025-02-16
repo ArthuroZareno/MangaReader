@@ -62,7 +62,7 @@ export default function Home() {
 
             return (
               <Link key={manga.id} href={`/manga/${manga.id}`} className="block p-2">
-                <img
+                <Image
                   src={coverUrl}
                   alt={manga.attributes.title.en}
                   className="rounded-lg shadow-md w-full h-64 object-cover"
@@ -88,7 +88,7 @@ export default function Home() {
 
             return (
               <Link key={manga.id} href={`/manga/${manga.id}`} className={`block shadow rounded-lg p-2 hover:scale-105 transition ${darkMode ? "bg-gray-800" : "bg-white"}`}>
-                <img src={coverUrl} alt={manga.attributes.title.en} className="rounded-md w-full h-52 object-cover" />
+                <Image src={coverUrl} alt={manga.attributes.title.en} className="rounded-md w-full h-52 object-cover" />
                 <h3 className="text-xs font-medium mt-1 text-center">
                   {manga.attributes.title.en}
                 </h3>

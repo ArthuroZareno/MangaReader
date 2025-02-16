@@ -54,7 +54,7 @@ export default function Chapter() {
 
         <div className="flex flex-col items-center gap-4 mt-6">
           {pages.map((page, index) => (
-            <img key={index} src={page} alt={`Page ${index + 1}`} className="max-w-full rounded-lg shadow-md" />
+            <Image key={index} src={page} alt={`Page ${index + 1}`} className="max-w-full rounded-lg shadow-md" />
           ))}
         </div>
 

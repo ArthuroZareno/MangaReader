@@ -50,7 +50,7 @@ export default function MangaDetails() {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Manga Cover */}
           <div>
-            <img src={coverUrl} alt="Manga Cover" className="rounded-lg shadow-md" />
+            <Image src={coverUrl} alt="Manga Cover" className="rounded-lg shadow-md" />
           </div>
 
           {/* Manga Info */}
