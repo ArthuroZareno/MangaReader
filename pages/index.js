@@ -17,7 +17,7 @@ export default function Home() {
     const fetchManga = async () => {
       try {
         const res = await axios.get(
-          `https://api.mangadex.org/manga?limit=30&order[followedCount]=desc&includes[]=cover_art`
+          `/api/proxy?limit=30&order[followedCount]=desc&includes[]=cover_art`
         );
         setMangaList(res.data.data);
         setFeaturedManga(res.data.data.slice(0, 6));
