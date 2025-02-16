@@ -5,8 +5,8 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: "Method Not Allowed" });
       }
   
-      // Extract query parameters
-      const { limit = 30, order, includes } = req.query;
+      // Extract query parameters (Only keep what's needed)
+      const { limit = 30 } = req.query;
   
       // Construct the API URL dynamically
       const apiUrl = `https://api.mangadex.org/manga?limit=${limit}&order[followedCount]=desc&includes[]=cover_art`;
@@ -18,7 +18,6 @@ export default async function handler(req, res) {
         headers: { "Content-Type": "application/json" },
       });
   
-      // If the API response is not OK, return the error
       if (!response.ok) {
         console.error(`MangaDex API Error: ${response.status}`);
         return res.status(response.status).json({ error: "Failed to fetch manga data" });
