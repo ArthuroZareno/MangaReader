@@ -16,9 +16,16 @@ export default function Home() {
   useEffect(() => {
     const fetchManga = async () => {
       try {
-        const res = await axios.get(
-          `/api/proxy?limit=30&order[followedCount]=desc&includes[]=cover_art`
-        );
+        console.log("Fetching manga from /api/proxy...");
+        const res = await axios.get("/api/proxy", {
+          params: {
+            limit: 30,
+            "order[followedCount]": "desc",
+            "includes[]": "cover_art",
+          },
+        });
+
+        console.log("Manga data received:", res.data);
         setMangaList(res.data.data);
         setFeaturedManga(res.data.data.slice(0, 6));
       } catch (error) {
