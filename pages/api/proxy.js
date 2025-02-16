@@ -1,19 +1,15 @@
-// pages/api/proxy.js
-import axios from 'axios';
+import axios from "axios";
 
 export default async function handler(req, res) {
-    try {
-        const response = await axios.get('https://api.mangadex.org/manga', {
-            params: req.query, // Forward query parameters
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+  try {
+    const { query } = req;
+    const response = await axios.get(
+      `https://api.mangadex.org/manga?limit=${query.limit || 30}&order[followedCount]=desc&includes[]=cover_art`
+    );
 
-        res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
-        res.status(200).json(response.data);
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error("Error fetching data from MangaDex:", error);
+    res.status(500).json({ error: "Failed to fetch manga data" });
+  }
 }
