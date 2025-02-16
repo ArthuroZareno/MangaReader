@@ -6,8 +6,8 @@ import { FaSearch } from "react-icons/fa";
 
 export default function Navbar() {
   const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  const [ setSearchResults] = useState([]);
+  const { darkMode } = useContext(ThemeContext);
   const router = useRouter();
 
   // Handle Search Input

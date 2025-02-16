@@ -1,7 +1,7 @@
 import "../styles/global.css";
 import { ThemeProvider, ThemeContext } from "../context/ThemeContext";
 import { useContext, useEffect } from "react";
-import { FaFacebook, FaInstagram, FaTwitter, FaMoon, FaSun } from "react-icons/fa";
+import { FaFacebook, FaInstagram,FaMoon, FaSun } from "react-icons/fa";
 import Image from "next/image";
 
 export default function MyApp({ Component, pageProps }) {
