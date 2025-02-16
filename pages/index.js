@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import axios from "axios";
 import Navbar from "../components/navbar";
 import Link from "next/link";
 import "slick-carousel/slick/slick.css";
@@ -13,22 +14,20 @@ export default function Home() {
   const { darkMode } = useContext(ThemeContext);
 
   useEffect(() => {
+    const fetchManga = async () => {
+      try {
+        const res = await axios.get(
+          `/api/proxy?limit=30&order[followedCount]=desc&includes[]=cover_art`
+        );
+        setMangaList(res.data.data);
+        setFeaturedManga(res.data.data.slice(0, 6));
+      } catch (error) {
+        console.error("Error fetching manga:", error);
+      }
+    };
+
     fetchManga();
   }, []);
-
-  // Fetch Manga Data from Next.js API
-  const fetchManga = async () => {
-    try {
-      const response = await fetch("/api/mangadex?limit=10");
-      const data = await response.json();
-      if (data && data.data) {
-        setMangaList(data.data);
-        setFeaturedManga(data.data.slice(0, 5)); // Take first 5 for featured
-      }
-    } catch (error) {
-      console.error("Error fetching manga data:", error);
-    }
-  };
 
   const settings = {
     dots: false,
@@ -51,9 +50,7 @@ export default function Home() {
           {featuredManga.map((manga) => {
             const coverArt = manga.relationships.find((rel) => rel.type === "cover_art");
             const coverUrl = coverArt
-              ? `/api/mangaCover?imageUrl=${encodeURIComponent(
-                  `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}`
-                )}`
+              ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.512.jpg`
               : "/placeholder.jpg";
 
             return (
@@ -79,9 +76,7 @@ export default function Home() {
           {mangaList.map((manga) => {
             const coverArt = manga.relationships.find((rel) => rel.type === "cover_art");
             const coverUrl = coverArt
-              ? `/api/mangaCover?imageUrl=${encodeURIComponent(
-                  `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}`
-                )}`
+              ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.256.jpg`
               : "/placeholder.jpg";
 
             return (
@@ -95,7 +90,6 @@ export default function Home() {
           })}
         </div>
       </div>
-
       <Footer />
     </div>
   );
