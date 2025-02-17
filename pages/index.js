@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import { ThemeContext } from "../context/ThemeContext";
 import Footer from "../components/Footer";
 import Image from "next/image";
-import MangaCovers from "../components/MangaCovers";
+
 
 export default function Home() {
   const [mangaList, setMangaList] = useState([]);
