@@ -20,15 +20,9 @@ export default function Home() {
   useEffect(() => {
     const fetchManga = async () => {
       try {
-        console.log("Fetching manga from MangaDex API...");
-        const res = await axios.get("https://api.mangadex.org/manga", {
-          params: {
-            limit: 30,
-            "order[followedCount]": "desc",
-            "includes[]": "cover_art",
-          },
-        });
-
+        console.log("Fetching manga from API route...");
+        const res = await axios.get("/api/manga"); // 🔹 Fetch from Next.js API route
+  
         console.log("Manga data received:", res.data);
         setMangaList(res.data.data);
         setFeaturedManga(res.data.data.slice(0, 6));
@@ -39,9 +33,10 @@ export default function Home() {
         setLoading(false);
       }
     };
-
+  
     fetchManga();
   }, []);
+  
 
   const settings = {
     dots: false,
