@@ -25,7 +25,7 @@ export default function MangaDetails() {
 
         // ✅ Fetch Chapters and Sort
         const chaptersRes = await axios.get(
-          `https://api.mangadex.org/manga/${id}/feed?limit=50&translatedLanguage[]=en`
+          `/api/manga?id=${id}`
         );
         if (chaptersRes.data.data) {
           const sortedChapters = chaptersRes.data.data
