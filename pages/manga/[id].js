@@ -38,11 +38,11 @@ export default function MangaDetails() {
 
   if (!manga) return <p className="text-center mt-10 dark:text-white">Loading...</p>;
 
-  // Extract cover image URL
-  const coverArt = manga.relationships.find((rel) => rel.type === "cover_art");
-  const coverUrl = coverArt
-    ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.256.jpg`
-    : "/placeholder.jpg";
+  const coverArt = manga?.relationships?.find((rel) => rel.type === "cover_art");
+  const coverUrl = coverArt?.attributes?.fileName
+  ? `/api/cover?id=${manga.id}&filename=${coverArt.attributes.fileName}`
+  : "/placeholder.jpg";
+
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white">
