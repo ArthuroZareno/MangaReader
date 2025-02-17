@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Navbar from "../../components/navbar";
-import Image from 'next/image';
-
 
 export default function Chapter() {
   const router = useRouter();
@@ -56,7 +54,7 @@ export default function Chapter() {
 
         <div className="flex flex-col items-center gap-4 mt-6">
           {pages.map((page, index) => (
-            <Image key={index} src={page} alt={`Page ${index + 1}`} className="max-w-full rounded-lg shadow-md" />
+            <img key={index} src={page} alt={`Page ${index + 1}`} className="max-w-full rounded-lg shadow-md" />
           ))}
         </div>
 

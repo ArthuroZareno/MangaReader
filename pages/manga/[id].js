@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Navbar from "../../components/navbar";
-import Image from 'next/image';
-
 
 export default function MangaDetails() {
   const router = useRouter();
@@ -52,7 +50,7 @@ export default function MangaDetails() {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Manga Cover */}
           <div>
-            <Image src={coverUrl} alt="Manga Cover" className="rounded-lg shadow-md" />
+            <img src={coverUrl} alt="Manga Cover" className="rounded-lg shadow-md" />
           </div>
 
           {/* Manga Info */}

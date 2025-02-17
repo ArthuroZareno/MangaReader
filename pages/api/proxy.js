@@ -1,33 +1,17 @@
 export default async function handler(req, res) {
-    try {
-      // Ensure it's a GET request
-      if (req.method !== "GET") {
-        return res.status(405).json({ error: "Method Not Allowed" });
-      }
-  
-      // Extract query parameters (Only keep what's needed)
-      const { limit = 30 } = req.query;
-  
-      // Construct the API URL dynamically
-      const apiUrl = `https://api.mangadex.org/manga?limit=${limit}&order[followedCount]=desc&includes[]=cover_art`;
-  
-      console.log("Forwarding request to:", apiUrl);
-  
-      // Fetch data from MangaDex API
-      const response = await fetch(apiUrl, {
-        headers: { "Content-Type": "application/json" },
-      });
-  
-      if (!response.ok) {
-        console.error(`MangaDex API Error: ${response.status}`);
-        return res.status(response.status).json({ error: "Failed to fetch manga data" });
-      }
-  
-      const data = await response.json();
-      res.status(200).json(data);
-    } catch (error) {
-      console.error("Server Error:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({ error: "Missing image URL" });
   }
-  
+
+  try {
+    const response = await fetch(url);
+    const buffer = await response.arrayBuffer();
+
+    res.setHeader("Content-Type", response.headers.get("Content-Type"));
+    res.send(Buffer.from(buffer));
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch image" });
+  }
+}

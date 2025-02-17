@@ -5,3 +5,10 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+module.exports = {
+  images: {
+    domains: ["uploads.mangadex.org"], // Add Mangadex as an allowed domain
+  },
+};
+
