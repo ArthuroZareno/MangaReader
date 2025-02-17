@@ -15,12 +15,12 @@ export default function MangaDetails() {
 
     const fetchMangaDetails = async () => {
       try {
-        // Fetch Manga Details
-        const mangaRes = await axios.get(`https://api.mangadex.org/manga/${id}?includes[]=cover_art`);
+        // ✅ Use local API route to avoid CORS
+        const mangaRes = await axios.get(`/api/manga?id=${id}`);
         const mangaData = mangaRes.data.data;
         setManga(mangaData);
 
-        // Fetch Manga Chapters and Sort by Chapter Number
+        // ✅ Fetch Manga Chapters and Sort by Chapter Number
         const chaptersRes = await axios.get(
           `https://api.mangadex.org/manga/${id}/feed?limit=50&translatedLanguage[]=en`
         );
@@ -38,20 +38,26 @@ export default function MangaDetails() {
 
   if (!manga) return <p className="text-center mt-10 dark:text-white">Loading...</p>;
 
+  // ✅ Fix Cover Image URL
   const coverArt = manga?.relationships?.find((rel) => rel.type === "cover_art");
   const coverUrl = coverArt?.attributes?.fileName
-  ? `/api/cover?id=${manga.id}&filename=${coverArt.attributes.fileName}`
-  : "/placeholder.jpg";
-
+    ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.256.jpg`
+    : "/placeholder.jpg";
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white">
       <Navbar />
       <div className="container mx-auto p-6">
         <div className="grid md:grid-cols-3 gap-6">
-          {/* Manga Cover */}
+          {/* ✅ Manga Cover (Fixed Image Component) */}
           <div>
-            <Image src={coverUrl} alt="Manga Cover" className="rounded-lg shadow-md" />
+            <Image 
+              src={coverUrl} 
+              alt="Manga Cover" 
+              width={250} 
+              height={350} 
+              className="rounded-lg shadow-md" 
+            />
           </div>
 
           {/* Manga Info */}
