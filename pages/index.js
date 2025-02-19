@@ -9,7 +9,6 @@ import { ThemeContext } from "../context/ThemeContext";
 import Footer from "../components/Footer";
 import Image from "next/image";
 
-
 export default function Home() {
   const [mangaList, setMangaList] = useState([]);
   const [featuredManga, setFeaturedManga] = useState([]);
@@ -22,10 +21,10 @@ export default function Home() {
       try {
         console.log("Fetching manga from API route...");
         const res = await axios.get("/api/manga"); // 🔹 Fetch from Next.js API route
-  
+
         console.log("Manga data received:", res.data);
-        setMangaList(res.data.data);
-        setFeaturedManga(res.data.data.slice(0, 6));
+        setMangaList(res.data.data || []);
+        setFeaturedManga((res.data.data || []).slice(0, 6));
       } catch (error) {
         console.error("Error fetching manga:", error?.response?.data || error.message);
         setError("Failed to load manga. Please try again later.");
@@ -33,10 +32,9 @@ export default function Home() {
         setLoading(false);
       }
     };
-  
+
     fetchManga();
   }, []);
-  
 
   const settings = {
     dots: false,
@@ -60,23 +58,23 @@ export default function Home() {
         ) : (
           <Slider {...settings} className="max-w-full mx-auto">
             {featuredManga.map((manga) => {
-              const coverArt = manga.relationships.find((rel) => rel.type === "cover_art");
-              const coverUrl = coverArt
+              const coverArt = manga.relationships?.find((rel) => rel.type === "cover_art");
+              const coverUrl = coverArt?.attributes?.fileName
                 ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.512.jpg`
-                : "/placeholder.jpg";
+                : "/placeholder.jpg"; // ✅ Safe fallback
 
               return (
                 <Link key={manga.id} href={`/manga/${manga.id}`} className="block p-2">
                   <Image
                     src={coverUrl}
-                    alt={manga.attributes.title?.en || "Untitled Manga"}
+                    alt={manga.attributes?.title?.en || "Untitled Manga"}
                     width={200}
                     height={300}
                     className="rounded-lg shadow-md w-full h-64 object-cover"
                     priority
                   />
                   <h3 className="text-sm text-center font-medium mt-1">
-                    {manga.attributes.title?.en || "Unknown Title"}
+                    {manga.attributes?.title?.en || "Unknown Title"}
                   </h3>
                 </Link>
               );
@@ -94,10 +92,10 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
             {mangaList.map((manga) => {
-              const coverArt = manga.relationships.find((rel) => rel.type === "cover_art");
-              const coverUrl = coverArt
+              const coverArt = manga.relationships?.find((rel) => rel.type === "cover_art");
+              const coverUrl = coverArt?.attributes?.fileName
                 ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}.256.jpg`
-                : "/placeholder.jpg";
+                : "/placeholder.jpg"; // ✅ Safe fallback
 
               return (
                 <Link
@@ -107,13 +105,13 @@ export default function Home() {
                 >
                   <Image
                     src={coverUrl}
-                    alt={manga.attributes.title?.en || "Untitled Manga"}
+                    alt={manga.attributes?.title?.en || "Untitled Manga"}
                     width={200}
                     height={300}
                     className="rounded-md w-full h-52 object-cover"
                   />
                   <h3 className="text-xs font-medium mt-1 text-center">
-                    {manga.attributes.title?.en || "Unknown Title"}
+                    {manga.attributes?.title?.en || "Unknown Title"}
                   </h3>
                 </Link>
               );
